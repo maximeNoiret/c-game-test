@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "termiosManagement.h"
+#include "term.h"
 
 const unsigned TERMINAL_HEIGHT = 24;
 const unsigned TERMINAL_WIDTH  = 80;
