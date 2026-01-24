@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
+#include <sys/ioctl.h>
 
 struct termios saved_attributes;
 
@@ -30,4 +31,13 @@ void set_input_mode (void) {
   tattr.c_cc[VMIN] = 1;
   tattr.c_cc[VTIME] = 0;
   tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
+}
+
+
+
+void get_terminal_size(unsigned *rows, unsigned *cols) {
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    *rows = w.ws_row;
+    *cols = w.ws_col;
 }

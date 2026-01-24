@@ -1,4 +1,3 @@
-#define CLEAR "\033[2J"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,21 +18,28 @@ int main() {
 	char c;
 	set_input_mode ();
 
-	char buf[15];
-	char *text = "This is a test.";
-	unsigned l = strlen(text);
-	unsigned x = (TERMINAL_WIDTH >> 1) - (l >> 1);
-	unsigned y = (TERMINAL_HEIGHT >> 1) - 1;
-	printf(CLEAR"%s%s\n", setPos(buf, x, y), text);
-	fflush(stdout);
 
+	printf(CLEAR CRS_HIDE "Make sure to use Ctrl+D to quit or your terminal will hate you.\n");
 	for(;;) {
+		fflush(stdout);
 		read(STDIN_FILENO, &c, 1);
-		if (c == '\004') break;
-		else {
-			putchar(c);
-			fflush(stdout);
+		switch(c) {
+		    case 'z': case 'Z':
+		        printf(LEFT " " LEFT UP FG_GREEN "@" RST);
+		        break;
+		    case 's': case 'S':
+		    	printf(LEFT " " LEFT DOWN FG_GREEN "@" RST);
+		        break;
+		    case 'q': case 'Q':
+		    	printf(LEFT " " LEFT LEFT FG_GREEN "@" RST);
+		        break;
+		    case 'd': case 'D':
+		    	printf(LEFT " " FG_GREEN "@" RST);
+		        break;
+		    case '\004': goto fuckyouimusingalabel;
 		}
 	}
+fuckyouimusingalabel:
+	printf("\n" CRS_SHOW "Exiting...\n");
 	return 0;
 }
