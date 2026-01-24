@@ -13,6 +13,11 @@
 
 #define CRS_HIDE "\x1B[?25l"
 #define CRS_SHOW "\x1B[?25h"
+#define CRS_GETP "\033[6n"
+
+
+#define TERMINAL_HEIGHT 24
+#define TERMINAL_WIDTH  80
 
 
 void set_input_mode (void);
