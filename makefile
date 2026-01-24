@@ -2,13 +2,13 @@ COMPILER = gcc
 CFLAGS = -Wall -Werror -g -fsanitize=address,undefined
 COMPILE_OBJECT = $(COMPILER) $(CFLAGS) -c $< -o $@
 
-game: main.o termiosManagement.o
+game: main.o term.o
 	$(COMPILER) $(CFLAGS) -o $@ $^
 
-main.o: main.c termiosManagement.h
+main.o: main.c term.h
 	$(COMPILE_OBJECT)
 
-termiosManagement.o: termiosManagement.c termiosManagement.h
+term.o: term.c term.h
 	$(COMPILE_OBJECT)
 
 clean:
