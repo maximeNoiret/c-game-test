@@ -35,7 +35,6 @@ int main() {
   printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
   printf("%sGoal: ??X ??Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
   printf(CRS_HIDE FG_GREEN "%s@" RST LEFT, setPos(buf, gs.player.x+1, gs.player.y+1));
-  fflush(stdout);
 
   memcpy(gs.map[0], "####################", 20);
   memcpy(gs.map[1], "#   #######    #####", 20);
