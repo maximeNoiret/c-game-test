@@ -35,6 +35,7 @@ int main() {
   for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
 
   printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
+  printf("%sGoal: ?X ?Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
   printf(CRS_HIDE FG_GREEN "%s@" RST LEFT, setPos(buf, gs.player.x+1, gs.player.y+1));
   fflush(stdout);
 
@@ -69,16 +70,16 @@ int main() {
           t_move_right(&gs);
           break;
 
-        case '\004': goto LABEL_end;
+        case '\004': goto exit;
     }
     // discover surrounding tiles
-    if (gs.player.x != 1)                  printf(LEFT  "%c"          , gs.map[gs.player.y][gs.player.x-1] ? gs.map[gs.player.y][gs.player.x-1] : ' ');
-    if (gs.player.x != TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, gs.map[gs.player.y][gs.player.x+1] ? gs.map[gs.player.y][gs.player.x+1] : ' ');
-    if (gs.player.y != 1)                  printf(UP    "%c" LEFT DOWN, gs.map[gs.player.y-1][gs.player.x] ? gs.map[gs.player.y-1][gs.player.x] : ' ');
-    if (gs.player.y != TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , gs.map[gs.player.y+1][gs.player.x] ? gs.map[gs.player.y+1][gs.player.x] : ' ');
+    if (gs.player.x > 1)                  printf(LEFT  "%c"          , gs.map[gs.player.y][gs.player.x-1] ? gs.map[gs.player.y][gs.player.x-1] : ' ');
+    if (gs.player.x < TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, gs.map[gs.player.y][gs.player.x+1] ? gs.map[gs.player.y][gs.player.x+1] : ' ');
+    if (gs.player.y > 1)                  printf(UP    "%c" LEFT DOWN, gs.map[gs.player.y-1][gs.player.x] ? gs.map[gs.player.y-1][gs.player.x] : ' ');
+    if (gs.player.y < TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , gs.map[gs.player.y+1][gs.player.x] ? gs.map[gs.player.y+1][gs.player.x] : ' ');
     fflush(stdout);
   }
-LABEL_end:
+exit:
   gamemap_free(&gs, TERMINAL_HEIGHT, TERMINAL_WIDTH);
   printf(CLEAR CRS_SHOW "Exiting...\n");
   return 0;
