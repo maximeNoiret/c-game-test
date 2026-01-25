@@ -16,6 +16,8 @@ typedef struct GameState {
 char **gamemap_init(const unsigned h, const unsigned w);
 void gamemap_free(GameState *gs, const unsigned h, const unsigned w);
 
+bool process_input(GameState *gs, const char c);
+
 
 
 #endif // M_GAME_H_

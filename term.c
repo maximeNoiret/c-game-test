@@ -80,3 +80,10 @@ void t_move_right(GameState *gs) {
   printf(" " FG_GREEN "@" RST LEFT);
   printHud(gs);
 } // t_move_right
+
+void discover(GameState *gs) {
+  if (gs->player.x > 1)                  printf(LEFT  "%c"          , gs->map[gs->player.y][gs->player.x-1] ? gs->map[gs->player.y][gs->player.x-1] : ' ');
+  if (gs->player.x < TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, gs->map[gs->player.y][gs->player.x+1] ? gs->map[gs->player.y][gs->player.x+1] : ' ');
+  if (gs->player.y > 1)                  printf(UP    "%c" LEFT DOWN, gs->map[gs->player.y-1][gs->player.x] ? gs->map[gs->player.y-1][gs->player.x] : ' ');
+  if (gs->player.y < TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , gs->map[gs->player.y+1][gs->player.x] ? gs->map[gs->player.y+1][gs->player.x] : ' ');
+} // discover

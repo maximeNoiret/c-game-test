@@ -35,6 +35,8 @@ void t_move_down (GameState *gs);
 void t_move_left (GameState *gs);
 void t_move_right(GameState *gs);
 
+void discover(GameState *gs);
+
 
 
 #endif // TERMIOSMANAGEMENT_H_

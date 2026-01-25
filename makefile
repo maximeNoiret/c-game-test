@@ -11,7 +11,7 @@ main.o: main.c term.h m_game.h
 term.o: term.c term.h m_game.h
 	$(COMPILE_OBJECT)
 
-m_game.o: m_game.c m_game.h
+m_game.o: m_game.c m_game.h term.h
 	$(COMPILE_OBJECT)
 
 clean:
