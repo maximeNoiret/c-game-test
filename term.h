@@ -19,9 +19,22 @@
 #define TERMINAL_HEIGHT 24
 #define TERMINAL_WIDTH  80
 
+#include "m_game.h"
 
+
+/* TERMIOS */
 void set_input_mode (void);
-
 void get_terminal_size(unsigned *rows, unsigned *cols);
+
+
+/* other */
+char *setPos(char *buf, unsigned x, unsigned y);
+
+void t_move_up   (GameState *gs);
+void t_move_down (GameState *gs);
+void t_move_left (GameState *gs);
+void t_move_right(GameState *gs);
+
+
 
 #endif // TERMIOSMANAGEMENT_H_

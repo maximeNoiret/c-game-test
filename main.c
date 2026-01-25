@@ -3,24 +3,25 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "m_game.h"
 #include "term.h"
 
-typedef struct Player {
-  size_t x;
-  size_t y;
-} Player;
 
-char *setPos(char *buf, unsigned x, unsigned y) {
-  snprintf(buf, 15, "\033[%d;%dH", y, x);
-  return buf;
-}
+
+
+
+
+
 
 int main() {
 
   char c;
   set_input_mode ();
 
-  Player player = {1, 1};
+  GameState gs;
+  gs.map = gamemap_init(TERMINAL_HEIGHT, TERMINAL_WIDTH);
+  gs.player.x = 1;
+  gs.player.y = 1;
 
   char buf[15];
   // draw borders
@@ -33,54 +34,52 @@ int main() {
   printf("\n");
   for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
 
-  printf(CRS_HIDE FG_GREEN "%s@" RST LEFT, setPos(buf, player.x+1, player.y+1));
+  printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
+  printf(CRS_HIDE FG_GREEN "%s@" RST LEFT, setPos(buf, gs.player.x+1, gs.player.y+1));
   fflush(stdout);
 
-  char map[TERMINAL_HEIGHT][TERMINAL_WIDTH] = {"####################",
-                                               "#   #######    #####",
-                                               "#              #   #",
-                                               "######### #####    #",
-                                               "##                 #",
-                                               "######### ###      #",
-                                               "#   ##### ##########",
-                                               "#                 ##",
-                                               "#   ##########      ",
-                                               "####################",};
+  memcpy(gs.map[0], "####################", 20);
+  memcpy(gs.map[1], "#   #######    #####", 20);
+  memcpy(gs.map[2], "#    ----      #   #", 20);
+  memcpy(gs.map[3], "######### #####    #", 20);
+  memcpy(gs.map[4], "##                 #", 20);
+  memcpy(gs.map[5], "######### ###      #", 20);
+  memcpy(gs.map[6], "#   ##### ##########", 20);
+  memcpy(gs.map[7], "#                 ##", 20);
+  memcpy(gs.map[8], "#   ##########      ", 20);
+  memcpy(gs.map[9], "####################", 20);
 
   for(;;) {
     read(STDIN_FILENO, &c, 1);
     switch(c) {
         case 'z': case 'Z':
-          if (player.y == 1 || map[player.y-1][player.x] == '#') break;
-          --player.y;
-          printf(" " LEFT UP FG_GREEN "@" RST LEFT);
+          if (gs.player.y == 1 || gs.map[gs.player.y-1][gs.player.x] == '#') break;
+          t_move_up(&gs);
           break;
         case 's': case 'S':
-          if (player.y == TERMINAL_HEIGHT-2 || map[player.y+1][player.x] == '#') break;
-          ++player.y;
-          printf(" " LEFT DOWN FG_GREEN "@" RST LEFT);
+          if (gs.player.y == TERMINAL_HEIGHT-2 || gs.map[gs.player.y+1][gs.player.x] == '#') break;
+          t_move_down(&gs);
           break;
         case 'q': case 'Q':
-          if (player.x == 1 || map[player.y][player.x-1] == '#') break;
-          --player.x;
-          printf(" " LEFT LEFT FG_GREEN "@" RST LEFT);
+          if (gs.player.x == 1 || gs.map[gs.player.y][gs.player.x-1] == '#') break;
+          t_move_left(&gs);
           break;
         case 'd': case 'D':
-          if (player.x == TERMINAL_WIDTH-2 || map[player.y][player.x+1] == '#') break;
-          ++player.x;
-          printf(" " FG_GREEN "@" RST LEFT);
+          if (gs.player.x == TERMINAL_WIDTH-2 || gs.map[gs.player.y][gs.player.x+1] == '#') break;
+          t_move_right(&gs);
           break;
 
-        case '\004': goto fuckyouimusingalabel;
+        case '\004': goto LABEL_end;
     }
     // discover surrounding tiles
-    if (player.x != 1)                  printf(LEFT  "%c"          , map[player.y][player.x-1] ? map[player.y][player.x-1] : ' ');
-    if (player.x != TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, map[player.y][player.x+1] ? map[player.y][player.x+1] : ' ');
-    if (player.y != 1)                  printf(UP    "%c" LEFT DOWN, map[player.y-1][player.x] ? map[player.y-1][player.x] : ' ');
-    if (player.y != TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , map[player.y+1][player.x] ? map[player.y+1][player.x] : ' '); 
+    if (gs.player.x != 1)                  printf(LEFT  "%c"          , gs.map[gs.player.y][gs.player.x-1] ? gs.map[gs.player.y][gs.player.x-1] : ' ');
+    if (gs.player.x != TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, gs.map[gs.player.y][gs.player.x+1] ? gs.map[gs.player.y][gs.player.x+1] : ' ');
+    if (gs.player.y != 1)                  printf(UP    "%c" LEFT DOWN, gs.map[gs.player.y-1][gs.player.x] ? gs.map[gs.player.y-1][gs.player.x] : ' ');
+    if (gs.player.y != TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , gs.map[gs.player.y+1][gs.player.x] ? gs.map[gs.player.y+1][gs.player.x] : ' ');
     fflush(stdout);
   }
-fuckyouimusingalabel:
-  printf("%s" CRS_SHOW "Exiting...\n", setPos(buf, 0, TERMINAL_HEIGHT+1));
+LABEL_end:
+  gamemap_free(&gs, TERMINAL_HEIGHT, TERMINAL_WIDTH);
+  printf(CLEAR CRS_SHOW "Exiting...\n");
   return 0;
 }
