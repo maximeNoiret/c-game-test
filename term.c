@@ -51,6 +51,23 @@ char *setPos(char *buf, unsigned x, unsigned y) {
   return buf;
 } // setPos
 
+void draw_outline(void) {
+  char buf[15];
+  printf(CLEAR RST);
+  printf("/");
+  for (unsigned i = 1; i < TERMINAL_WIDTH-1; ++i) printf("-");
+  printf("\\");
+  for (unsigned j = 1; j < TERMINAL_HEIGHT-1; ++j) {
+    printf("%s|", setPos(buf, 0, j));
+    printf("%s|", setPos(buf, TERMINAL_WIDTH-1, j));
+  }
+  printf("\n\\");
+  for (unsigned i = 1; i < TERMINAL_WIDTH-1; ++i) printf("-");
+  printf("/");
+}
+
+
+
 static void printHud(GameState *gs) {
   char buf[15];
   printf("%sPos: %uX %uY   ", setPos(buf, 0, TERMINAL_HEIGHT+3), gs->player.x, gs->player.y);

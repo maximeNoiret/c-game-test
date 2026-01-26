@@ -30,12 +30,14 @@
 
 
 /* TERMIOS */
-void set_input_mode (void);
+void set_input_mode(void);
 void get_terminal_size(unsigned *rows, unsigned *cols);
 
 
 /* other */
 char *setPos(char *buf, unsigned x, unsigned y);
+
+void draw_outline(void);
 
 void t_move_up   (GameState *gs);
 void t_move_down (GameState *gs);
