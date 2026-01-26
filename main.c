@@ -24,13 +24,16 @@ int main() {
   char buf[15];
   // draw borders
   printf(CLEAR RST);
-  for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
+  printf("/");
+  for (unsigned i = 1; i < TERMINAL_WIDTH-1; ++i) printf("-");
+  printf("\\");
   for (unsigned j = 1; j < TERMINAL_HEIGHT-1; ++j) {
-    printf("%s#", setPos(buf, 0, j));
-    printf("%s#", setPos(buf, TERMINAL_WIDTH-1, j));
+    printf("%s|", setPos(buf, 0, j));
+    printf("%s|", setPos(buf, TERMINAL_WIDTH-1, j));
   }
-  printf("\n");
-  for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
+  printf("\n\\");
+  for (unsigned i = 1; i < TERMINAL_WIDTH-1; ++i) printf("-");
+  printf("/");
 
   printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
   printf("%sGoal: ??X ??Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
