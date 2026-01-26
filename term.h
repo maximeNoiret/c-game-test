@@ -1,13 +1,17 @@
 #ifndef TERMIOSMANAGEMENT_H_
 #define TERMIOSMANAGEMENT_H_
 
-#define CLEAR     "\x1B[2J\x1B[H"
-#define RST       "\x1B[0m"
-#define FG_GREEN  "\x1B[1;32m"
-#define BG_GREEN  "\x1B[1;42m"
-#define BG_GRAY   "\x1B[48;5;236m"
+#define CLEAR "\x1B[2J\x1B[H"
+#define RST   "\x1B[0m"
 
-#define BG_PATH   BG_GRAY
+#define ITALIC     "\x1B[3m"
+#define ITALIC_END "\x1B[23m"
+
+#define FG_GREEN "\x1B[1;32m"
+#define BG_GREEN "\x1B[1;42m"
+#define BG_GRAY  "\x1B[48;5;236m"
+
+#define BG_PATH  BG_GRAY
 
 #define UP    "\x1B[1A"
 #define DOWN  "\x1B[1B"

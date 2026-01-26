@@ -59,25 +59,25 @@ static void printHud(GameState *gs) {
 
 void t_move_up(GameState *gs) {
   --gs->player.y;
-  printf(" " LEFT UP FG_GREEN BG_PATH "@" RST LEFT);
+  printf(" " LEFT UP FG_GREEN BG_PATH ITALIC "@" RST LEFT);
   printHud(gs);
 } // t_move_up
 
 void t_move_down (GameState *gs) {
   ++gs->player.y;
-  printf(" " LEFT DOWN FG_GREEN BG_PATH "@" RST LEFT);
+  printf(" " LEFT DOWN FG_GREEN BG_PATH ITALIC "@" RST LEFT);
   printHud(gs);
 } // t_move_down
 
 void t_move_left (GameState *gs) {
   --gs->player.x;
-  printf(" " LEFT LEFT FG_GREEN BG_PATH "@" RST LEFT);
+  printf(" " LEFT LEFT FG_GREEN BG_PATH ITALIC "@" RST LEFT);
   printHud(gs);
 } // t_move_left
 
 void t_move_right(GameState *gs) {
   ++gs->player.x;
-  printf(" " FG_GREEN BG_PATH "@" RST LEFT);
+  printf(" " FG_GREEN BG_PATH ITALIC "@" RST LEFT);
   printHud(gs);
 } // t_move_right
 

@@ -34,7 +34,7 @@ int main() {
 
   printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
   printf("%sGoal: ??X ??Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
-  printf(CRS_HIDE FG_GREEN BG_PATH "%s@" RST LEFT, setPos(buf, gs.player.x, gs.player.y));
+  printf(CRS_HIDE FG_GREEN BG_PATH ITALIC "%s@" RST LEFT, setPos(buf, gs.player.x, gs.player.y));
 
   memcpy(gs.map[0], "####################", 20);
   memcpy(gs.map[1], "#   #######    #####", 20);
