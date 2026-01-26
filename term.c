@@ -47,7 +47,7 @@ void get_terminal_size(unsigned *rows, unsigned *cols) {
 
 
 char *setPos(char *buf, unsigned x, unsigned y) {
-  snprintf(buf, 15, "\033[%d;%dH", y, x);
+  snprintf(buf, 15, "\033[%d;%dH", y+1, x+1);
   return buf;
 } // setPos
 
@@ -59,31 +59,48 @@ static void printHud(GameState *gs) {
 
 void t_move_up(GameState *gs) {
   --gs->player.y;
-  printf(" " LEFT UP FG_GREEN "@" RST LEFT);
+  printf(" " LEFT UP FG_GREEN BG_PATH "@" RST LEFT);
   printHud(gs);
 } // t_move_up
 
 void t_move_down (GameState *gs) {
   ++gs->player.y;
-  printf(" " LEFT DOWN FG_GREEN "@" RST LEFT);
+  printf(" " LEFT DOWN FG_GREEN BG_PATH "@" RST LEFT);
   printHud(gs);
 } // t_move_down
 
 void t_move_left (GameState *gs) {
   --gs->player.x;
-  printf(" " LEFT LEFT FG_GREEN "@" RST LEFT);
+  printf(" " LEFT LEFT FG_GREEN BG_PATH "@" RST LEFT);
   printHud(gs);
 } // t_move_left
 
 void t_move_right(GameState *gs) {
   ++gs->player.x;
-  printf(" " FG_GREEN "@" RST LEFT);
+  printf(" " FG_GREEN BG_PATH "@" RST LEFT);
   printHud(gs);
 } // t_move_right
 
+static void print_tile(GameState *gs, unsigned x, unsigned y) {
+  char tile = gs->map[y][x];
+  char buf[15];
+  printf("%s", setPos(buf, x, y));
+
+  switch (tile) {
+    case ' ': case '\0':
+      printf(BG_PATH " " RST);
+      break;
+    default:
+      printf("%c", tile);
+      break;
+  }
+
+  printf("%s", setPos(buf, gs->player.x, gs->player.y));
+}
+
 void discover(GameState *gs) {
-  if (gs->player.x > 1)                  printf(LEFT  "%c"          , gs->map[gs->player.y][gs->player.x-1] ? gs->map[gs->player.y][gs->player.x-1] : ' ');
-  if (gs->player.x < TERMINAL_WIDTH-2)   printf(RIGHT "%c" LEFT LEFT, gs->map[gs->player.y][gs->player.x+1] ? gs->map[gs->player.y][gs->player.x+1] : ' ');
-  if (gs->player.y > 1)                  printf(UP    "%c" LEFT DOWN, gs->map[gs->player.y-1][gs->player.x] ? gs->map[gs->player.y-1][gs->player.x] : ' ');
-  if (gs->player.y < TERMINAL_HEIGHT-2)  printf(DOWN  "%c" LEFT UP  , gs->map[gs->player.y+1][gs->player.x] ? gs->map[gs->player.y+1][gs->player.x] : ' ');
+  if (gs->player.x > 1)                  print_tile(gs, gs->player.x-1, gs->player.y);
+  if (gs->player.x < TERMINAL_WIDTH-2)   print_tile(gs, gs->player.x+1, gs->player.y);
+  if (gs->player.y > 1)                  print_tile(gs, gs->player.x, gs->player.y-1);
+  if (gs->player.y < TERMINAL_HEIGHT-2)  print_tile(gs, gs->player.x, gs->player.y+1);
 } // discover

@@ -14,7 +14,7 @@
 
 
 int main() {
-  set_input_mode ();
+  set_input_mode();
 
   GameState gs;
   gs.map = gamemap_init(TERMINAL_HEIGHT, TERMINAL_WIDTH);
@@ -25,20 +25,20 @@ int main() {
   // draw borders
   printf(CLEAR RST);
   for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
-  for (unsigned j = 1; j < TERMINAL_HEIGHT; ++j) {
+  for (unsigned j = 1; j < TERMINAL_HEIGHT-1; ++j) {
     printf("%s#", setPos(buf, 0, j));
-    printf("%s#", setPos(buf, TERMINAL_WIDTH, j));
+    printf("%s#", setPos(buf, TERMINAL_WIDTH-1, j));
   }
   printf("\n");
   for (unsigned i = 0; i < TERMINAL_WIDTH; ++i) printf("#");
 
   printf("%sPos: %uX %uY", setPos(buf, 0, TERMINAL_HEIGHT+3), gs.player.x, gs.player.y);
   printf("%sGoal: ??X ??Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
-  printf(CRS_HIDE FG_GREEN "%s@" RST LEFT, setPos(buf, gs.player.x+1, gs.player.y+1));
+  printf(CRS_HIDE FG_GREEN BG_PATH "%s@" RST LEFT, setPos(buf, gs.player.x, gs.player.y));
 
   memcpy(gs.map[0], "####################", 20);
   memcpy(gs.map[1], "#   #######    #####", 20);
-  memcpy(gs.map[2], "#    ----      #   #", 20);
+  memcpy(gs.map[2], "#              #   #", 20);
   memcpy(gs.map[3], "######### #####    #", 20);
   memcpy(gs.map[4], "##                 #", 20);
   memcpy(gs.map[5], "######### ###      #", 20);
