@@ -98,6 +98,7 @@ static void print_tile(GameState *gs, unsigned x, unsigned y) {
 }
 
 void discover(GameState *gs) {
+  char buf[15];
   if (gs->player.x > 1)                  print_tile(gs, gs->player.x-1, gs->player.y);
   if (gs->player.x < TERMINAL_WIDTH-2)   print_tile(gs, gs->player.x+1, gs->player.y);
   if (gs->player.y > 1)                  print_tile(gs, gs->player.x, gs->player.y-1);
