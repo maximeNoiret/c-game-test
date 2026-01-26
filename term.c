@@ -81,6 +81,7 @@ void t_move_right(GameState *gs) {
   printHud(gs);
 } // t_move_right
 
+// WARNING: this function does not place back the cursor to player.
 static void print_tile(GameState *gs, unsigned x, unsigned y) {
   char tile = gs->map[y][x];
   char buf[15];
@@ -94,8 +95,6 @@ static void print_tile(GameState *gs, unsigned x, unsigned y) {
       printf("%c", tile);
       break;
   }
-
-  printf("%s", setPos(buf, gs->player.x, gs->player.y));
 }
 
 void discover(GameState *gs) {
@@ -103,4 +102,5 @@ void discover(GameState *gs) {
   if (gs->player.x < TERMINAL_WIDTH-2)   print_tile(gs, gs->player.x+1, gs->player.y);
   if (gs->player.y > 1)                  print_tile(gs, gs->player.x, gs->player.y-1);
   if (gs->player.y < TERMINAL_HEIGHT-2)  print_tile(gs, gs->player.x, gs->player.y+1);
+  printf("%s", setPos(buf, gs->player.x, gs->player.y));
 } // discover
