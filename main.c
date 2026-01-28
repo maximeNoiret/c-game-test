@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "m_game.h"
+#include "m_file.h"
 #include "term.h"
 
 
@@ -22,16 +23,7 @@ int main() {
   printf("%sGoal: ??X ??Y", setPos(buf, 20, TERMINAL_HEIGHT+3));
   printf(CRS_HIDE FG_GREEN BG_PATH ITALIC "%s@" RST LEFT, setPos(buf, gs.player.x, gs.player.y));
 
-  memcpy(gs.map[0], "####################", 20);
-  memcpy(gs.map[1], "#   #######    #####", 20);
-  memcpy(gs.map[2], "#              #   #", 20);
-  memcpy(gs.map[3], "######### #####    #", 20);
-  memcpy(gs.map[4], "##                 #", 20);
-  memcpy(gs.map[5], "######### ###      #", 20);
-  memcpy(gs.map[6], "#   ##### ##########", 20);
-  memcpy(gs.map[7], "#                 ##", 20);
-  memcpy(gs.map[8], "#   ##########      ", 20);
-  memcpy(gs.map[9], "####################", 20);
+  load_room(&gs, "map_test.txt", 10, 5);
 
   /* MAIN LOOP */
   for(char c = '\0'; process_input(&gs, c); read(STDIN_FILENO, &c, 1)) {
