@@ -30,20 +30,67 @@
 
 
 /* TERMIOS */
+/**
+ * @brief Disables cannonical mode to allow direct input using Termios.
+ * @note Function taken from official GNU documentation's example.
+ */
 void set_input_mode(void);
-void get_terminal_size(unsigned *rows, unsigned *cols);
 
 
 /* other */
+/**
+ * @brief Outputs into rows and cols the current size of the terminal.
+ * @param[out] rows Current rows count of the terminal
+ * @param[out] cols Current columns count of the terminal
+ * @note This function is not used yet. It will be once the game is more built up.
+ */
+void get_terminal_size(unsigned *rows, unsigned *cols);
+
+/**
+ * @brief Generates the ANSI escape sequence to place the terminal cursor to a position.
+ * @param[out] buf Buffer to store the generated ANSI escape sequence
+ * @param[in]  x   Desired x position of the cursor
+ * @param[in]  y   Desired y position of the cursor
+ * @return The buffer to allow inline printing with printf()
+ */
 char *setPos(char *buf, unsigned x, unsigned y);
 
+/**
+ * @brief Draws the outline of the game map.
+ * \note
+ * The defined values (TERMINAL_HEIGHT/WIDTH) have an incorrect name and should be MAP_HEIGHT/WIDTH.
+ * This must be fixed soon.
+ */
 void draw_outline(void);
 
+/**
+ * @brief Moves the player up.
+ * @param[in,out] gs GameState to update internal player position
+ */
 void t_move_up   (GameState *gs);
+
+/**
+ * @brief Moves the player down.
+ * @param[in,out] gs GameState to update internal player position
+ */
 void t_move_down (GameState *gs);
+
+/**
+ * @brief Moves the player left.
+ * @param[in,out] gs GameState to update internal player position
+ */
 void t_move_left (GameState *gs);
+
+/**
+ * @brief Moves the player right.
+ * @param[in,out] gs GameState to update internal player position
+ */
 void t_move_right(GameState *gs);
 
+/**
+ * @brief "Discovers" the four tiles around the player.
+ * @param[in,out] gs GameState to access player position and map
+ */
 void discover(GameState *gs);
 
 

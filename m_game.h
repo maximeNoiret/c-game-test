@@ -1,10 +1,12 @@
 #ifndef M_GAME_H_
 #define M_GAME_H_
 
-
+/**
+ * @brief Player struct to store information related to the player.
+ */ 
 typedef struct Player {
-  unsigned x;
-  unsigned y;
+  unsigned x;  ///< x position of the player
+  unsigned y;  ///< y position of the player
 } Player;
 
 typedef struct GameState {

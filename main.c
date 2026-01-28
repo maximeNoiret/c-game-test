@@ -7,12 +7,6 @@
 #include "term.h"
 
 
-
-
-
-
-
-
 int main() {
   set_input_mode();
 
