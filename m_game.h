@@ -9,8 +9,14 @@ typedef struct Player {
   unsigned y;  ///< y position of the player
 } Player;
 
+typedef struct GameMap {
+  unsigned w;
+  unsigned h;
+  char **ptr;
+} GameMap;
+
 typedef struct GameState {
-  char **map;
+  GameMap map;
   Player player;
 } GameState;
 
@@ -28,7 +34,7 @@ char **gamemap_init(const unsigned h, const unsigned w);
  * @param h Height of the map
  * @param w Width of the map
  */
-void gamemap_free(GameState *gs, const unsigned h, const unsigned w);
+void gamemap_free(GameState *gs);
 
 /**
  * @brief Process the user input.

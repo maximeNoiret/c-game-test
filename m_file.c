@@ -26,7 +26,7 @@ int load_room(GameState *gs, char *fn, unsigned x, unsigned y) {
   // TODO: check if room will leave map boundary.
 
   for (unsigned i = 0; fpeek(f) != EOF && i < h; ++i) {
-    fread(&gs->map[y+i][x], 1, w, f);
+    fread(&gs->map.ptr[y+i][x], 1, w, f);
     fseek(f, 1, SEEK_CUR);  // +1 to skip '\n'
   }
 

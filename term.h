@@ -23,8 +23,8 @@
 #define CRS_GETP "\033[6n"
 
 
-#define TERMINAL_HEIGHT 24
-#define TERMINAL_WIDTH  80
+#define MAP_HEIGHT gs->map.h
+#define MAP_WIDTH  gs->map.w
 
 #include "m_game.h"
 
@@ -58,10 +58,10 @@ char *setPos(char *buf, unsigned x, unsigned y);
 /**
  * @brief Draws the outline of the game map.
  * \note
- * The defined values (TERMINAL_HEIGHT/WIDTH) have an incorrect name and should be MAP_HEIGHT/WIDTH.
+ * The defined values (MAP_HEIGHT/WIDTH) have an incorrect name and should be MAP_HEIGHT/WIDTH.
  * This must be fixed soon.
  */
-void draw_outline(void);
+void draw_outline(GameState *gs);
 
 /**
  * @brief Moves the player up.
