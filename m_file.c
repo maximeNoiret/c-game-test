@@ -10,24 +10,29 @@ static int fpeek(FILE * const f) {
   return c == EOF ? EOF : ungetc(c, f);
 }
 
+static void next_line(FILE *f) {
+  char dummy[4];
+  fgets(dummy, sizeof(dummy), f);
+}
+
 int load_room(GameState *gs, char *fn, unsigned x, unsigned y) {
 
-  // TODO: check if x y is outside of map.
+  if (x < 0 || x > gs->map.w ||
+      y < 0 || y > gs->map.h) return -1;
 
   FILE *f = fopen(fn, "r");
   if (!f) return -1;
 
   unsigned w, h;
-  if (fscanf(f, "%u;%u", &w, &h) != 2) return -2;
-  ++w;
-  ++h;
-  fseek(f, 1, SEEK_CUR);  // skip '\n' of first line
+  if (fscanf(f, "%u;%u", &w, &h) != 2) return -3;
 
-  // TODO: check if room will leave map boundary.
+  if (x+w > gs->map.w || y+h > gs->map.h) return -2;
+
+  next_line(f);
 
   for (unsigned i = 0; fpeek(f) != EOF && i < h; ++i) {
     fread(&gs->map.ptr[y+i][x], 1, w, f);
-    fseek(f, 1, SEEK_CUR);  // +1 to skip '\n'
+    next_line(f);
   }
 
   fclose(f);
